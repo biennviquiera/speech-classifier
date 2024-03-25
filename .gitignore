@@ -1,1 +1,4 @@
-ASVspoof2021_LA_eval/flac
+data/genuine
+data/genuine_mel_spectrograms
+data/spoofed
+data/spoofed_mel_spectrograms

@@ -1,0 +1,62 @@
+Meetings Notes w/ Alex Wong
+
+Updates:
+- Normalized all training data, same format and sampling rate
+- Created visualizations with .png as well as .npy files using librosa's mel_spectogram functionality
+
+Questions:
+- How should I handle varying lengths of speech excerpts? Should I perform trimming prior to visualization?
+
+
+
+Every input use data loader
+
+Create python script to set up datasets:
+- iterate through all of the files, get the path
+glob.glob (way to grab all of the files from a directory), filetype 
+
+paths_fake = sorted(glob.glob(os.path.join(path_to_folder, "*.npy")))
+
+Labels_fake = [0] * len(paths_fake)
+
+# do the same for the real ones
+paths_real = ****
+labels_real = [1] * len(paths_real)
+
+Paths = paths_real + paths_fake
+Labels = labels_real + labels_fake <- save this as text file
+
+Concat paths_fake and paths_real
+
+
+Now with all the data, create training and validation split
+Convert paths and labels to lumpy array , use np.permutation to randomly select subset
+Can index into locations and select the paths. Save to text file each
+- paths_val
+- labels_val
+- paths_train
+- labels_train
+- paths_test
+- labels_test
+
+Persistent save of these splits
+
+
+TRAINING LOOP
+=============
+Load text files into memory 
+Send text files to data loader
+
+- training data loader, validation data loader, testing data loader
+DataSet class would load numpy arrays
+
+
+Load data
+Make predictions
+Make updates to model, replace linear function 
+Log and repeat to see 
+
+Next steps is to set up dataset splits, create data loader, create simple linear classifier with single layer to test
+
+Try to match things to what in class says
+
