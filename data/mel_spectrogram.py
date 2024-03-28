@@ -14,7 +14,6 @@ destination_directory = sys.argv[2]
 
 # Function to process and save a single audio file
 def process_and_save(file_path, destination_path):
-    # Load the audio file
     y, sr = librosa.load(file_path, sr=None)
     # Generate the Mel-spectrogram
     S = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=2048, hop_length=512, n_mels=128)
@@ -31,7 +30,6 @@ if not os.path.exists(destination_directory):
 # Process each FLAC file in the source directory
 for filename in os.listdir(source_directory):
     print(f"processing file {filename}")
-    # Construct the full file path
     file_path = os.path.join(source_directory, filename)
     # Construct the output file path (change extension to .npy)
     output_filename = os.path.splitext(filename)[0] + '.npy'

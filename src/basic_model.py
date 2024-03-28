@@ -4,13 +4,10 @@ import torch.nn.functional as F
 class CNNWithGAP(nn.Module):
     def __init__(self, num_channels, output_size=2):
         super(CNNWithGAP, self).__init__()
-        # Convolutional layers
         self.conv1 = nn.Conv2d(1, num_channels, kernel_size=3, stride=1, padding=1)
         self.conv2 = nn.Conv2d(num_channels, num_channels * 2, kernel_size=3, stride=1, padding=1)
-        
-        # Global Average Pooling
 
-        # Final classification layer
+        # Final classification/fully connected layer
         self.fc = nn.Linear(num_channels * 2, output_size)
 
     def forward(self, x):
