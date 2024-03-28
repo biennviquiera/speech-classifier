@@ -39,3 +39,13 @@ def read_paths(filepath):
 
     return path_list
 
+
+def pad_mel_spectrogram(mel_spec, max_length, pad_value=0):
+    """Pads or truncates a Mel-spectrogram to a fixed length."""
+    current_length = mel_spec.shape[1]
+    if current_length < max_length:
+        padding = np.full((mel_spec.shape[0], max_length - current_length), pad_value)
+        mel_spec = np.concatenate((mel_spec, padding), axis=1)
+    elif current_length > max_length:
+        mel_spec = mel_spec[:, :max_length]
+    return mel_spec
