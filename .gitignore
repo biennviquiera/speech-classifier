@@ -2,3 +2,5 @@ data/genuine
 data/genuine_mel_spectrograms
 data/spoofed
 data/spoofed_mel_spectrograms
+data/asvspoof_bonafide*
+data/eval

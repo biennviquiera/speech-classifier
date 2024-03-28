@@ -2,6 +2,12 @@ import subprocess
 import os
 import json
 import re
+import sys
+
+if len(sys.argv) < 3:
+    print("Usage: normalize_audio_in_dir.py <source dir> <output dir>")
+    sys.exit(1)  
+
 
 def analyze_loudness(file_path):
     """Analyze the loudness of an audio file using FFmpeg and return the loudness stats as a dictionary."""
@@ -10,7 +16,6 @@ def analyze_loudness(file_path):
         'loudnorm=I=-23:LRA=7:tp=-2:print_format=json', '-f', 'null', '-'
     ]
     result = subprocess.run(cmd, text=True, stderr=subprocess.PIPE)
-    print("RESULT OF CMD IS ", result) 
     try:
         # Adjusted regex to match multi-line JSON
         json_str_match = re.search(r'(\{.+\})', result.stderr, re.DOTALL)
@@ -25,8 +30,9 @@ def analyze_loudness(file_path):
         print("Failed to decode JSON from FFmpeg output.")
         return None
     
-def normalize_audio(file_path, output_path, loudness_stats):
+def normalize_audio(file_path, output_dir, filename, loudness_stats):
     """Normalize an audio file based on loudness analysis using FFmpeg and save the output."""
+    output_path = os.path.join(output_dir, filename)
     filter_complex = (
         f"loudnorm=I=-23:LRA=7:tp=-2:measured_I={loudness_stats['input_i']}:"
         f"measured_LRA={loudness_stats['input_lra']}:measured_tp={loudness_stats['input_tp']}:"
@@ -38,8 +44,8 @@ def normalize_audio(file_path, output_path, loudness_stats):
     ]
     subprocess.run(cmd, text=True)
 
-directory = '.'
-output_directory = '.'
+directory = sys.argv[1]
+output_directory = sys.argv[2]
 if not os.path.exists(output_directory):
     os.makedirs(output_directory)
 
@@ -47,11 +53,10 @@ for filename in os.listdir(directory):
     if filename.endswith(('.wav', '.mp3', '.flac')):
         file_path = os.path.join(directory, filename)
         
-        # Analyze loudness
         loudness_stats = analyze_loudness(file_path)
         
         # Normalize audio based on loudness analysis
         print(f"processing file: {file_path}")
-        normalize_audio(file_path, file_path, loudness_stats)
+        normalize_audio(file_path, output_directory, filename, loudness_stats)
 
         print(f"Processed: {filename}")

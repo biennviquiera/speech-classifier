@@ -31,13 +31,12 @@ if not os.path.exists(destination_directory):
 # Process each FLAC file in the source directory
 for filename in os.listdir(source_directory):
     print(f"processing file {filename}")
-    if filename.endswith('.flac'):
-        # Construct the full file path
-        file_path = os.path.join(source_directory, filename)
-        # Construct the output file path (change extension to .npy)
-        output_filename = os.path.splitext(filename)[0] + '.npy'
-        destination_path = os.path.join(destination_directory, output_filename)
-        # Process and save the Mel-spectrogram
-        process_and_save(file_path, destination_path)
+    # Construct the full file path
+    file_path = os.path.join(source_directory, filename)
+    # Construct the output file path (change extension to .npy)
+    output_filename = os.path.splitext(filename)[0] + '.npy'
+    destination_path = os.path.join(destination_directory, output_filename)
+    # Process and save the Mel-spectrogram
+    process_and_save(file_path, destination_path)
 
 print("All Mel-spectrograms have been processed and saved.")

@@ -68,3 +68,5 @@ for epoch in range(num_epochs):
     epoch_loss = running_loss / total_steps
     print(f'Epoch [{epoch+1}/{num_epochs}] Average Loss: {epoch_loss:.4f}\n')
 
+torch.save(model.state_dict(), 'cnn_with_gap_model.pth')
+print('Model saved successfully!')
